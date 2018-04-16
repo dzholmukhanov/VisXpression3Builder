@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisXpression3Builder.Lib", "VisXpression3Builder.Lib\VisXpression3Builder.Lib.csproj", "{59B5B755-844F-4F8A-A1C6-A8AEB98A2DA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisXpression3Builder.Api", "VisXpression3Builder.Api\VisXpression3Builder.Api.csproj", "{E5A55D4E-CF3B-4F39-9010-6D32EAE92698}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59B5B755-844F-4F8A-A1C6-A8AEB98A2DA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B5B755-844F-4F8A-A1C6-A8AEB98A2DA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B5B755-844F-4F8A-A1C6-A8AEB98A2DA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B5B755-844F-4F8A-A1C6-A8AEB98A2DA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5A55D4E-CF3B-4F39-9010-6D32EAE92698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5A55D4E-CF3B-4F39-9010-6D32EAE92698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5A55D4E-CF3B-4F39-9010-6D32EAE92698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5A55D4E-CF3B-4F39-9010-6D32EAE92698}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {962D45E6-491B-4EA1-8CDB-CAF193478AEA}
+	EndGlobalSection
+EndGlobal
