@@ -4,12 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using VisXpression3Builder.Lib.Attributes;
 using VisXpression3Builder.Lib.Models;
 
 namespace VisXpression3Builder.Lib.Repositories
 {
-    public interface IDomainFunctionsRepository : IFunctionsRepository
+    public abstract class ADomainFunctionsRepository : ABuiltInFunctionRepository<DomainFunctionAttribute>
     {
-        D3NEGraph UpdateFunction(string name, D3NEGraph graph, string updatedBy);
+        public abstract D3NEGraph UpdateFunction(string name, D3NEGraph graph, string updatedBy);
     }
 }

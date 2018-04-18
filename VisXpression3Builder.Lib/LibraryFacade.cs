@@ -12,12 +12,12 @@ namespace VisXpression3Builder.Lib
     {
         public FunctionsFacade FunctionsFacade { get; set; }
         private IUserDefinedFunctionsRepository UserDefinedFuncsRepo { get; set; }
-        private IDomainFunctionsRepository DomainFuncsRepo { get; set; }
+        private ADomainFunctionsRepository DomainFuncsRepo { get; set; }
 
         public LibraryFacade(
             IUserDefinedFunctionsRepository userDefinedFuncsRepo, 
             ABuiltInFunctionRepository<StaticFunctionAttribute> staticFuncsRepo,
-            IDomainFunctionsRepository domainFuncsRepo
+            ADomainFunctionsRepository domainFuncsRepo
         ) {
             UserDefinedFuncsRepo = userDefinedFuncsRepo;
             DomainFuncsRepo = domainFuncsRepo;

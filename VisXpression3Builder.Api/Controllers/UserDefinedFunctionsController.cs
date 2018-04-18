@@ -15,7 +15,7 @@ namespace VisXpression3Builder.Api.Controllers
 
         public UserDefinedFunctionsController()
         {
-            VxbFacade = new LibraryFacade(new UserDefinedFunctionsRepository(), new StaticFunctionsRepository());
+            VxbFacade = new LibraryFacade(new UserDefinedFunctionsRepository(), new StaticFunctionsRepository(), new DomainFunctionsRepository());
         }
 
         [ResponseType(typeof(IEnumerable<FunctionDeclaration>))]

@@ -12,7 +12,7 @@ namespace VisXpression3Builder.Api.Controllers
         private LibraryFacade VxbFacade;
         public BasicFunctionsController()
         {
-            VxbFacade = new LibraryFacade(new UserDefinedFunctionsRepository(), new StaticFunctionsRepository());
+            VxbFacade = new LibraryFacade(new UserDefinedFunctionsRepository(), new StaticFunctionsRepository(), new DomainFunctionsRepository());
         }
         [ResponseType(typeof(IEnumerable<FunctionDeclaration>))]
         public IHttpActionResult Get()
