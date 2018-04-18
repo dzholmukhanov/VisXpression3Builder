@@ -9,6 +9,7 @@ using VisXpression3Builder.Lib.Models;
 
 namespace VisXpression3Builder.Lib.Repositories
 {
+    // asdasdasdfsdfsd
     public abstract class ABuiltInFunctionRepository<A> : IFunctionsRepository where A : FunctionAttribute
     {
         public bool Exists(string functionName)
@@ -60,7 +61,7 @@ namespace VisXpression3Builder.Lib.Repositories
             var methodInfo = GetFunctionMethods().FirstOrDefault(mi => mi.Name == functionName);
             if (methodInfo == null) throw new ArgumentException($"Function {functionName} does not exist in {GetType().ToString()}");
             if (parameterIndex >= methodInfo.GetParameters().Length) throw new ArgumentException($"Function {functionName} doesn't have such a parameter");
-            return methodInfo.GetParameters()[parameterIndex].GetType();
+            return methodInfo.GetParameters()[parameterIndex].ParameterType;
         }
 
         protected IEnumerable<MethodInfo> GetFunctionMethods()

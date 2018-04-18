@@ -19,10 +19,11 @@ namespace VisXpression3Builder.Lib.Constructor
 
         private Dictionary<string, ParameterExpression> LocalVars { get; set; }
 
-        /// <summary>
-        /// Used for caching and to prevent infinite loop of parsing when there are circular dependencies
-        /// </summary>
         private Dictionary<string, LambdaExpression> CachedTrees { get; set; }
+        /// <summary>
+        ///  Used to prevent infinite loop of parsing when there are circular dependencies
+        /// </summary>
+        private Dictionary<string, ParameterExpression> CallStackTreePointers { get; set; }
 
         private ParameterExpression[] EntryParams { get; set; }
         private Dictionary<Tuple<int, int>, ParameterExpression> LoopVars { get; set; }
@@ -34,11 +35,13 @@ namespace VisXpression3Builder.Lib.Constructor
             string functionName, 
             D3NEGraph graph,
             FunctionsFacade functionFacade, 
-            Dictionary<string, LambdaExpression> cachedTrees = null
+            Dictionary<string, LambdaExpression> cachedTrees = null,
+            Dictionary<string, ParameterExpression> callStackPointers = null
         ) {
             FunctionName = functionName;
             FunctionsFacade = functionFacade;
             CachedTrees = cachedTrees ?? new Dictionary<string, LambdaExpression>();
+            CallStackTreePointers = callStackPointers ?? new Dictionary<string, ParameterExpression>();
             Validator = new GraphValidator(graph, functionFacade);
             Validator.Validate();
 
@@ -88,7 +91,11 @@ namespace VisXpression3Builder.Lib.Constructor
             Dictionary<int, bool> visited = new Dictionary<int, bool>();
             visited[entry.Id] = true;
 
+            // Storing self pointer in case if there will be recursive calls
+            CallStackTreePointers[FunctionName] = Self;
             Expression body = GetControlExpression(entry.Outputs[0][0].Node, visited);
+            // Outside of the current function's scope self pointer is no longer usable
+            CallStackTreePointers.Remove(FunctionName);
 
             ConstructedExpression = Expression.Lambda(
                 Self.Type,
@@ -250,7 +257,11 @@ namespace VisXpression3Builder.Lib.Constructor
                     }
                     catch(NeedToConstructExpressionTreeException)
                     {
+                        // If the function has been constructed before use that
                         if (CachedTrees.ContainsKey(currentNode.Type)) return Expression.Invoke(CachedTrees[currentNode.Type], inputExpressions);
+                        // If this is a recursive call of a function that hasn't been constructed yet use self pointer
+                        else if (CallStackTreePointers.ContainsKey(currentNode.Type)) return Expression.Invoke(CallStackTreePointers[currentNode.Type], inputExpressions);
+                        // Otherwise construct a tree for the function
                         else
                         {
                             var graph = FunctionsFacade.GetFunctionGraph(currentNode.Type);
