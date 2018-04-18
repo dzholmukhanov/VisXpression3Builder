@@ -9,7 +9,6 @@ using VisXpression3Builder.Lib.Models;
 
 namespace VisXpression3Builder.Lib.Repositories
 {
-    // asdasdasdfsdfsd
     public abstract class ABuiltInFunctionRepository<A> : IFunctionsRepository where A : FunctionAttribute
     {
         public bool Exists(string functionName)
@@ -17,7 +16,7 @@ namespace VisXpression3Builder.Lib.Repositories
             return GetFunctionMethods().Any(mi => mi.Name == functionName);
         }
 
-        public D3NEGraph GetFunctionGraph(string name)
+        public virtual D3NEGraph GetFunctionGraph(string name)
         {
             throw new NotSupportedException();
         }

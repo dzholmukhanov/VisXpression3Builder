@@ -12,5 +12,6 @@ namespace VisXpression3Builder.Lib.Repositories
     public abstract class ADomainFunctionsRepository : ABuiltInFunctionRepository<DomainFunctionAttribute>
     {
         public abstract D3NEGraph UpdateFunction(string name, D3NEGraph graph, string updatedBy);
+        public abstract override D3NEGraph GetFunctionGraph(string name);
     }
 }
