@@ -44,6 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\FunctionGroups.cs" />
+    <Compile Include="Models\ParameterComparer.cs" />
+    <Compile Include="Repositories\IDomainFunctionsRepository.cs" />
     <Compile Include="Repositories\IUserDefinedFunctionsRepository.cs" />
     <Compile Include="Attributes\BasicFunctionAttribute.cs" />
     <Compile Include="Attributes\FlowControlFunctionAttribute.cs" />
