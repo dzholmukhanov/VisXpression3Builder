@@ -5,6 +5,7 @@ using VisXpression3Builder.Lib.Constructor;
 using VisXpression3Builder.Lib.Models;
 using VisXpression3Builder.Lib.Repositories;
 using System.Linq;
+using System;
 
 namespace VisXpression3Builder.Lib
 {
@@ -50,6 +51,7 @@ namespace VisXpression3Builder.Lib
             {
                 objArgs[i] = DataTypes.Parse(request.Arguments[i].Value, request.Arguments[i].Type);
             }
+
             var constructor = new ExpressionTreeConstructor(name, function, FunctionsFacade);
             var expTree = constructor.Construct();
             var lambda = expTree.Compile();
@@ -61,6 +63,7 @@ namespace VisXpression3Builder.Lib
         public D3NEGraph UpdateDomainFunction(string name, D3NEGraph graph, string updatedBy)
         {
             var oldGraph = DomainFuncsRepo.GetFunctionGraph(name);
+            if (oldGraph == null) return null;
             if (!oldGraph.Inputs.SequenceEqual(graph.Inputs, new ParameterComparer()) || !(new ParameterComparer()).Equals(oldGraph.Output, graph.Output)) {
                 throw new InvalidBalanceGraphException("Input or output signature doesn't match with the original");
             }
@@ -86,6 +89,18 @@ namespace VisXpression3Builder.Lib
             var result = lambda.DynamicInvoke(objArgs);
 
             return result;
+        }
+
+        public Delegate GetCompiledDomainFunction(string name)
+        {
+            var function = DomainFuncsRepo.GetFunctionGraph(name);
+            if (function == null) return null;
+
+            var constructor = new ExpressionTreeConstructor(name, function, FunctionsFacade);
+            var expTree = constructor.Construct();
+            var lambda = expTree.Compile();
+
+            return lambda;
         }
 
         public bool DeleteUserDefinedFunction(string name)

@@ -44,7 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\DomainFunctionAttribute.cs" />
+    <Compile Include="Attributes\DomainFunctionSaveResult.cs" />
     <Compile Include="Constants\FunctionGroups.cs" />
+    <Compile Include="Models\FunctionSignature.cs" />
     <Compile Include="Models\ParameterComparer.cs" />
     <Compile Include="Repositories\ADomainFunctionsRepository.cs" />
     <Compile Include="Repositories\IUserDefinedFunctionsRepository.cs" />
