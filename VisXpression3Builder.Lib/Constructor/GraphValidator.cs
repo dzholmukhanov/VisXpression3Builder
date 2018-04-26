@@ -20,8 +20,8 @@ namespace VisXpression3Builder.Lib.Constructor
 
         public void Validate()
         {
-            if (Model.Nodes.Count(n => n.Type == FunctionNames.Entry) != 1) throw new InvalidBalanceGraphException("Zero or multiple entry points");
-            if (!Model.Nodes.Any(n => n.Type == FunctionNames.Return)) throw new InvalidBalanceGraphException("No return nodes");
+            if (Model.Nodes.Count(n => n.Type == FunctionNames.Entry) != 1) throw new InvalidGraphException("Zero or multiple entry points");
+            if (!Model.Nodes.Any(n => n.Type == FunctionNames.Return)) throw new InvalidGraphException("No return nodes");
 
             foreach(var i in Model.Inputs)
             {
@@ -35,15 +35,15 @@ namespace VisXpression3Builder.Lib.Constructor
 
             foreach (var node in Model.Nodes)
             {
-                if (node == null) throw new InvalidBalanceGraphException("Null node");
-                if (node.Data == null) throw new InvalidBalanceGraphException($"Data property of node {node.DisplayName} is null");
+                if (node == null) throw new InvalidGraphException("Null node");
+                if (node.Data == null) throw new InvalidGraphException($"Data property of node {node.DisplayName} is null");
                 //if (node.Inputs.Length == 0 && node.Type != NodeTypes.Entry) throw new InvalidBalanceGraphException($"Node {node.DisplayName} has no inputs");
-                if (node.Outputs.Length == 0 && node.Type != FunctionNames.Return) throw new InvalidBalanceGraphException($"Node {node.DisplayName} has no output");
+                if (node.Outputs.Length == 0 && node.Type != FunctionNames.Return) throw new InvalidGraphException($"Node {node.DisplayName} has no output");
 
                 // TODO: Check for type validity
                 //if (!NodeTypes.IsValidType(node.Type)) throw new InvalidBalanceGraphException($"Invalid type of node {node.DisplayName}");
 
-                if (Facade.IsPureFunction(node.Type) && node.Outputs.Length != 1) throw new InvalidBalanceGraphException("A pure function node must have exactly one output");
+                if (Facade.IsPureFunction(node.Type) && node.Outputs.Length != 1) throw new InvalidGraphException("A pure function node must have exactly one output");
 
                 int index = 0;
                 foreach (var input in node.Inputs)
@@ -99,41 +99,41 @@ namespace VisXpression3Builder.Lib.Constructor
                 }
             }
 
-            if (visited.Any(kv => kv.Value == false)) throw new InvalidBalanceGraphException($"Node {GetNode(visited.First(kv => kv.Value == false).Key).DisplayName} is unreachable");
+            if (visited.Any(kv => kv.Value == false)) throw new InvalidGraphException($"Node {GetNode(visited.First(kv => kv.Value == false).Key).DisplayName} is unreachable");
         }
 
         private D3NEGraph.Node GetNode(int id)
         {
             var node = Model.Nodes.FirstOrDefault(n => n.Id == id);
-            if (node == null) throw new InvalidBalanceGraphException($"Couldn't find a node with id {id}");
+            if (node == null) throw new InvalidGraphException($"Couldn't find a node with id {id}");
             return node;
         }
 
         private void ValidateParameter(Parameter param, string whatParameter)
         {
-            if (param == null) throw new InvalidBalanceGraphException($"Null {whatParameter}");
-            if (param.Name == null) throw new InvalidBalanceGraphException($"Unnamed {whatParameter}");
-            if (!DataTypes.IsValidType(param.Type)) throw new InvalidBalanceGraphException($"Type of {whatParameter} {param.Name} is invalid");
+            if (param == null) throw new InvalidGraphException($"Null {whatParameter}");
+            if (param.Name == null) throw new InvalidGraphException($"Unnamed {whatParameter}");
+            if (!DataTypes.IsValidType(param.Type)) throw new InvalidGraphException($"Type of {whatParameter} {param.Name} is invalid");
         }
 
         private void ValidateInputSocket(D3NEGraph.InputSocket socket, int socketIndex, string nodeName, string nodeType)
         {
-            if (socket.Connections.Any(c => c == null)) throw new InvalidBalanceGraphException($"Null connection on input socket {socketIndex} of the node {nodeName}");
+            if (socket.Connections.Any(c => c == null)) throw new InvalidGraphException($"Null connection on input socket {socketIndex} of the node {nodeName}");
 
             if (Facade.IsPureFunction(nodeType))
             {
-                if (socket.Connections.Length > 1) throw new InvalidBalanceGraphException("Ambigious data connection");
+                if (socket.Connections.Length > 1) throw new InvalidGraphException("Ambigious data connection");
             }
             else
             {
-                if (socketIndex == 0 && socket.Connections.Any(c => Facade.IsPureFunction(GetNode(c.Node).Type))) throw new InvalidBalanceGraphException($"Wrong flow connection on node {nodeName}");
-                if (socketIndex > 0 && socket.Connections.Length > 1) throw new InvalidBalanceGraphException("Ambigious data connection");
+                if (socketIndex == 0 && socket.Connections.Any(c => Facade.IsPureFunction(GetNode(c.Node).Type))) throw new InvalidGraphException($"Wrong flow connection on node {nodeName}");
+                if (socketIndex > 0 && socket.Connections.Length > 1) throw new InvalidGraphException("Ambigious data connection");
             }
         }
 
         private void ValidateOutputSocket(D3NEGraph.OutputSocket socket, int socketIndex, string nodeName, string nodeType)
         {
-            if (socket.Connections.Any(c => c == null)) throw new InvalidBalanceGraphException($"Null connection on output socket {socketIndex} of the node {nodeName}");
+            if (socket.Connections.Any(c => c == null)) throw new InvalidGraphException($"Null connection on output socket {socketIndex} of the node {nodeName}");
             
             if (Facade.IsControlFunction(nodeType))
             {
@@ -141,15 +141,15 @@ namespace VisXpression3Builder.Lib.Constructor
                 {
                     case FunctionNames.Entry:
                     case FunctionNames.Set:
-                        if (socketIndex == 0 && socket.Connections.Length > 1) throw new InvalidBalanceGraphException($"Node {nodeName} can't have more than one connection per flow socket");
+                        if (socketIndex == 0 && socket.Connections.Length > 1) throw new InvalidGraphException($"Node {nodeName} can't have more than one connection per flow socket");
                         break;
                     case FunctionNames.Return:
-                        throw new InvalidBalanceGraphException($"Node {nodeName} can't have output sockets");
+                        throw new InvalidGraphException($"Node {nodeName} can't have output sockets");
                     case FunctionNames.If:
-                        if ((socketIndex == 0 || socketIndex == 1) && socket.Connections.Length > 1) throw new InvalidBalanceGraphException($"Node {nodeName} can't have more than one connection per flow socket");
+                        if ((socketIndex == 0 || socketIndex == 1) && socket.Connections.Length > 1) throw new InvalidGraphException($"Node {nodeName} can't have more than one connection per flow socket");
                         break;
                     case FunctionNames.ForEach:
-                        if ((socketIndex == 0 || socketIndex == 3) && socket.Connections.Length > 1) throw new InvalidBalanceGraphException($"Node {nodeName} can't have more than one connection per flow socket");
+                        if ((socketIndex == 0 || socketIndex == 3) && socket.Connections.Length > 1) throw new InvalidGraphException($"Node {nodeName} can't have more than one connection per flow socket");
                         break;
                     case FunctionNames.For:
                     case FunctionNames.While:

@@ -3,7 +3,10 @@ using VisXpression3Builder.Lib.Repositories;
 
 namespace VisXpression3Builder.Api.VXB
 {
-    internal class StaticFunctionsRepository : ABuiltInFunctionRepository<StaticFunctionAttribute>
+    /// <summary>
+    /// This class is for defining static methods as static functions that can be referenced and used in user defined functions
+    /// </summary>
+    public class StaticFunctionsRepository : AStaticFunctionsRepository
     {
         [StaticFunction(Title = "Xor")]
         public static double? Xor(double? a, double? b)

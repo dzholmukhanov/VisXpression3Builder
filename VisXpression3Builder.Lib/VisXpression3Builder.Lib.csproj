@@ -57,7 +57,7 @@
     <Compile Include="Models\FunctionExecutionRequest.cs" />
     <Compile Include="Models\FunctionDeclaration.cs" />
     <Compile Include="Models\D3NEGraph.cs" />
-    <Compile Include="Models\InvalidBalanceGraphException.cs" />
+    <Compile Include="Models\InvalidGraphException.cs" />
     <Compile Include="Models\Parameter.cs" />
     <Compile Include="Models\NeedToConstructExpressionTreeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,6 +65,7 @@
     <Compile Include="Repositories\BasicFunctionsRepository.cs" />
     <Compile Include="Repositories\FlowControlFunctionsRepository.cs" />
     <Compile Include="Repositories\IFunctionsRepository.cs" />
+    <Compile Include="Repositories\AStaticFunctionsRepository.cs" />
     <Compile Include="Utils\ExpressionUtils.cs" />
     <Compile Include="LibraryFacade.cs" />
   </ItemGroup>

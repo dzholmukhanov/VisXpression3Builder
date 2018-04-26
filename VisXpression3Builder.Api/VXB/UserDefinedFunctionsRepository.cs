@@ -9,7 +9,10 @@ using VisXpression3Builder.Lib.Repositories;
 
 namespace VisXpression3Builder.Api.VXB
 {
-    internal class UserDefinedFunctionsRepository : IUserDefinedFunctionsRepository
+    /// <summary>
+    /// Functions that can be stored, manipulated, executed. They are parsed from D3NE graphs that use only static/user-defined/basic/flow-control functions as node types.
+    /// </summary>
+    public class UserDefinedFunctionsRepository : IUserDefinedFunctionsRepository
     {
         public D3NEGraph GetFunctionGraph(string name)
         {

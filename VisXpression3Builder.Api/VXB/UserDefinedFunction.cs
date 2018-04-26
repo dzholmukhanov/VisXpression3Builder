@@ -6,6 +6,9 @@ using System.Web;
 
 namespace VisXpression3Builder.Api.VXB
 {
+    /// <summary>
+    /// How to store user-defined function is totally up to a library user
+    /// </summary>
     public class UserDefinedFunction
     {
         [Key]

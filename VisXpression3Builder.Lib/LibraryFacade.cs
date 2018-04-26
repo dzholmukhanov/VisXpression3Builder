@@ -7,12 +7,18 @@ using VisXpression3Builder.Lib.Repositories;
 
 namespace VisXpression3Builder.Lib
 {
+    /// <summary>
+    /// Core library functionality is exposed via LibraryFacade and FunctionsFacade. 
+    /// Library users have to implement IUserDefinedFunctionsRepository and AStaticFunctionsRepository that define library-user's specifics.
+    /// Functions can be added to library either through StaticFunctionsRepository as C# static methods or fully dynamically
+    /// through UserDefinedFunctionsRepository that works with D3NE graph format.
+    /// </summary>
     public class LibraryFacade
     {
         public FunctionsFacade FunctionsFacade { get; set; }
         private IUserDefinedFunctionsRepository UserDefinedFuncsRepo { get; set; }
 
-        public LibraryFacade(IUserDefinedFunctionsRepository userDefinedFuncsRepo, ABuiltInFunctionRepository<StaticFunctionAttribute> staticFuncsRepo)
+        public LibraryFacade(IUserDefinedFunctionsRepository userDefinedFuncsRepo, AStaticFunctionsRepository staticFuncsRepo)
         {
             UserDefinedFuncsRepo = userDefinedFuncsRepo;
             FunctionsFacade = new FunctionsFacade(userDefinedFuncsRepo, staticFuncsRepo);

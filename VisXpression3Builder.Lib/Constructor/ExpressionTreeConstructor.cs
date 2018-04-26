@@ -124,13 +124,13 @@ namespace VisXpression3Builder.Lib.Constructor
         private D3NEGraph.Node GetNode(int id)
         {
             var node = Nodes.FirstOrDefault(n => n.Id == id);
-            if (node == null) throw new InvalidBalanceGraphException($"Couldn't find a node with id {id}");
+            if (node == null) throw new InvalidGraphException($"Couldn't find a node with id {id}");
             return node;
         }
 
         private Expression GetControlExpression(int node, Dictionary<int, bool> visited)
         {
-            if (visited.ContainsKey(node) && visited[node]) throw new InvalidBalanceGraphException("Infinite flow loop");
+            if (visited.ContainsKey(node) && visited[node]) throw new InvalidGraphException("Infinite flow loop");
 
             visited[node] = true;
 
@@ -197,7 +197,7 @@ namespace VisXpression3Builder.Lib.Constructor
                         outputFlowExpressions[0]
                     );
                 default:
-                    throw new InvalidBalanceGraphException("Not a control function or is entry");
+                    throw new InvalidGraphException("Not a control function or is entry");
             }
         }
 
@@ -210,7 +210,7 @@ namespace VisXpression3Builder.Lib.Constructor
 
         private Expression GetDataExpression(int? node, int? output, Dictionary<int, bool> visited)
         {
-            if (visited.ContainsKey(node.Value) && visited[node.Value]) throw new InvalidBalanceGraphException("Infinite data loop");
+            if (visited.ContainsKey(node.Value) && visited[node.Value]) throw new InvalidGraphException("Infinite data loop");
 
             var currentNode = GetNode(node.Value);
 
@@ -286,7 +286,7 @@ namespace VisXpression3Builder.Lib.Constructor
                 }
             }
 
-            throw new InvalidBalanceGraphException($"Couldn't recognize node {currentNode.Type}");
+            throw new InvalidGraphException($"Couldn't recognize node {currentNode.Type}");
         }
 
         private Expression GetDefaultValueOfEmptyInput(string nodeType, int emptyInputIndex, string nodeValue)
@@ -306,7 +306,7 @@ namespace VisXpression3Builder.Lib.Constructor
                 return Expression.Default(FunctionsFacade.GetInputParameterType(nodeType, emptyInputIndex));
             }
 
-            throw new InvalidBalanceGraphException($"Couldn't recognize node {nodeType}");
+            throw new InvalidGraphException($"Couldn't recognize node {nodeType}");
         }
     }
 }

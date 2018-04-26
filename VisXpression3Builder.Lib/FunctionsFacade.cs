@@ -14,7 +14,7 @@ namespace VisXpression3Builder.Lib
         internal IFunctionsRepository FlowControlsRepo;
         internal IUserDefinedFunctionsRepository UserDefinedsRepo;
 
-        public FunctionsFacade(IUserDefinedFunctionsRepository userDefinedFuncsRepo, ABuiltInFunctionRepository<StaticFunctionAttribute> staticFuncsRepo)
+        public FunctionsFacade(IUserDefinedFunctionsRepository userDefinedFuncsRepo, AStaticFunctionsRepository staticFuncsRepo)
         {
             BasicsRepo = new BasicFunctionsRepository();
             StaticsRepo = staticFuncsRepo;
